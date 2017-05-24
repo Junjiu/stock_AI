@@ -1,0 +1,5 @@
+f=open("D:/stock_data/temp","+w")
+f.write("hi")
+f.write("\n")
+f.write("world")
+f.close()
