@@ -40,7 +40,12 @@ class Data_getter:
             for i in range(len(output)):
                 f_output_data.write(str(output[i])+",")
             f_output_data.write("\n")
-            f_output_result.write(str(result)+"\n")
+            f_output_data.write(str(label)[2:] + ",")
+            for i in range(len(output)):
+                f_output_data.write(str(output[i]) + ",")
+            f_output_data.write("\n")
+
+            f_output_result.write(str(label)[2:]+"   "+str(result)+"\n")
         f_output_data.close()
         f_output_result.close()
     def __build_one_line(self,price,num):

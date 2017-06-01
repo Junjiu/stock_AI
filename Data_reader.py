@@ -9,6 +9,6 @@ class Data_reader:
         cols = tf.decode_csv(
             value, record_defaults=record_defaults)
         features = tf.stack(cols[1:exam_len])
-
+        label=tf.stack(cols[0])
         result = tf.stack(cols[exam_len:exam_len+re_len])
-        return features,result
+        return features,result,label
