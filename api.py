@@ -21,19 +21,13 @@ def get_data(url):
         if(one_potion<0) :raise  NameError
         print(one_potion)
         print("last  delta and value %s,  %s"%(delta[len(delta) - 1],float(price[len(price) - 1])))
-        #print(one_potion)
-        #print(delta[len(delta) - 1])
-        #print(price[len(price) - 1])
         for i in range(199):
             if i == one_potion:
                 example.append(1)
                 continue
             example.append(0)
         delta.pop(len(delta) - 1)
-        #print("delta's length: %s" % len(delta))
-        #print("example's length :  %s" % len(example))
         inputs = delta + example
-        #print(inputs)
         for i in range(len(inputs)):
             f.write(str(inputs[i]) + ",")
         f.write("\n")

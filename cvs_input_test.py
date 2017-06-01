@@ -3,14 +3,14 @@
 import tensorflow as tf
 import numpy as np
 from tensorflow.core.protobuf import saver_pb2
-filename_queue = tf.train.string_input_producer(["D:/stock_data/train_data.csv"])
+filename_queue = tf.train.string_input_producer(["D:/stock_data/train_current_data.csv"])
 
 reader = tf.TextLineReader()
 key, value = reader.read(filename_queue)
 
 # Default values, in case of empty columns. Also specifies the type of the
 # decoded result.
-record_defaults = [[1.0]]*249
+record_defaults = [[1.0]]*251
 cols= tf.decode_csv(
     value, record_defaults=record_defaults)
 features = tf.stack(cols[0:49])
@@ -40,7 +40,7 @@ sess.run(init)
 
 #=====================================================
 
-for i in range(3795):
+for i in range(10):
   print("Do training for %dth data"%i)
   # Retrieve a single instance:
   example, label = sess.run([features, result])
@@ -65,4 +65,6 @@ saver = tf.train.Saver()
 
 save_path = saver.save(sess, "D:/model/model.ckpt")
 print("Model saved in file: %s" % save_path)
-
+coord.request_stop()
+coord.join(threads)
+sess.close()
