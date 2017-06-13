@@ -1,34 +1,45 @@
-from  Data_getter import Data_getter
-from Model_builder import  Builder
-import os
+# from Softmax_Builder import  Builder_Softmax
+from SVM_Builder import Builder_SVM
 from Predicter import Predicter
-from Tester import Tester
+from Build_data import  Pirce
 class Stock_AI:
 
-    getter = Data_getter()
-    builder=Builder()
+    # builder_svm=Builder_SVM()
+    # # builder_softmax=Builder_Softmax()
     predicter=Predicter()
-    tester=Tester()
+    price=Pirce()
 
     def run(self):
-        # self.getter.get_data()
-        f_total=open("D:/stock_data/total_output.csv","w+")
-        f_pre = open("D:/stock_data/pre_output.csv","w+")
-        interest=0
-        total=0
+        self.price.build_data("train")
+        self.price.build_data("pre")
+        for i in range(1):
+            print("start runing")
+            builder_svm = Builder_SVM()
+            for j in range(3,6):
+                self.price.build_kernal(j)
+                builder_svm.train()
+                self.predicter.predict_svm()
+                print("right_sum")
+                print(self.predicter.right_sum)
+                print("wrong_sum")
+                print(self.predicter.wrong_sum)
+                print("accuracy")
+                print(self.predicter.right_sum/(self.predicter.wrong_sum+self.predicter.right_sum))
+            self.predicter.wrong_sum = 0
+            self.predicter.right_sum = 0
+            for j in range(10):
+                self.price.build_kernal(j)
+                self.predicter.predict_svm()
+                print("======================")
+                print("right_sum")
+                print(self.predicter.right_sum)
+                print("wrong_sum")
+                print(self.predicter.wrong_sum)
+                print("accuracy")
+                accuracy=self.predicter.right_sum / (self.predicter.wrong_sum + self.predicter.right_sum)
+                print(accuracy)
+                f_flag=open("D:/stock_data2.0/flag1.csv","r+")
+                f_flag.write(str(i)+"  :"+str(accuracy))
+                f_flag.close()
 
-        for i in range(39,20,-1):
-            print("%dth test:"%i)
-            self.getter.build_data(i)
-            self.builder.train()
-            self.predicter.predict(300)
-            t,p=self.tester.test()
-            interest+=p
-            total+=t
-            f_total.write(str(t)+"\n")
-            f_pre.write(str(p)+"\n")
 
-        print("interest :"+str(interest))
-        print("total :"+str(total))
-        f_total.close()
-        f_pre.close()

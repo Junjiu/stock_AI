@@ -7,12 +7,12 @@ class Pair:
 def compare(pair):
     return pair.p_delta
 class Tester:
-
-    def test(self,top=10):
+    def test_svm(self):
+        return 1,1
+    def test_softmax(self, top=10):
         pairs,total=self.get_pairs()
         if top>len(pairs) : top=len(pairs)
         sum,num = 0,0
-
         for i in range(top):
             if pairs[i].p_delta<0:
                 break
